@@ -1,0 +1,40 @@
+//// arithmetic
+add @<regA> @<regB> @<regC> - add value of regA and regB and store in regC
+sub @<regA> @<regB> @<regC> - subtract value of regA to regB and store in regC
+//// bitwise
+and @<regA> @<regB> @<regC> - and value of regA and regB and store in regC
+or @<regA> @<regB> @<regC> - or value of regA and regB and store in regC
+xor @<regA> @<regB> @<regC> - xor value of regA and regB and store in regC
+
+// memory
+ldi @<regA> <int> - load int to regA
+ldm @<regA> #<mem> - load value from memory to regA ldm(load memory)
+stm @<regA> #<mem> - store value from regA to memory stm(store memory)
+
+// control
+jmp <int> - jump to int
+biz <int> - jump to int if zero
+
+
+// immediates
+//// arithmetic
+addi @<regA> @<int> @<regC> - add int to regA and store in regC
+subi @<regA> @<int> @<regC> - subtract int to regA and store in regC
+//// bitwise
+andi @<regA> @<int> @<regC> - and int to regA and store in regC
+ori @<regA> @<int> @<regC> - or int to regA and store in regC
+xori @<regA> @<int> @<regC> - xor int to regA and store in regC
+
+// accelerator
+mul @<regA> @<regB> @<regC> - multiply value of regA and regB and store in regC
+div @<regA> @<regB> @<regC> - divide value of regA to regB and store in regC
+
+// all arithmetic and bitwise operation will trigger flags
+// flags
+zero
+overflow
+A larger than B
+A smaller than B
+A equals B
+
+
