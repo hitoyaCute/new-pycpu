@@ -1,54 +1,75 @@
 import re
 
-def assemble(input:str, default_const: dict | None = None) -> tuple[list[str],dict]:
-    # convert assembly to list of string
-    program:list[str] = input.split("\n")
-    
-    # remove first comment and parse it for initiation
-    for id,line in enumerate(program):
-        if line.startswith("// "):
-            program[id] = ""
-        else:
-            break
+def assemble(inp:str, default_const: dict | None = None) -> tuple[list[str],dict]:
+    # step 0 split by line
+    programs = inp.split("\n")
+
+    # step 1 fetch definitions
+    # step 2 search for names and create a list for render offset
+    # and include tags
+    # step 3 
+   
+    # holds tags and definitions
+    names: dict[str,int] = {}
     
 
-    # definitions
-    definitions:dict[str, int] = default_const or {
-            # default constant
-            "zero":0,
-            "largerthan":1,
-            "lessthan":2,
-            "equals":3,
-            "overflow":4}
-    for id,line in enumerate(program):
+    # lets do it on one loop ig
+    for pointer, line in enumerate(programs):
+        # split the line for multi arg line
+        encoding = False
+        # multi line comment flag
+        mlc_flag = False
+        # comment flag
+        cmnt_flag = False
+
+        # read line flag
+        read = True
+
+        # remove comments
+        if line.startswith("//"):
+            # maybe check if its on an header
+            continue
         if line.startswith("define"):
-            _,name,value = line.split(" ")
-            definitions[name] = int(value)
-    
-    # list all operation
-    for id,line in enumerate(program):
-        in_line_ops = line.split(",")
-        # ```addim 12 34 56, subin 12 34 56```
-        offset = 0
-        for in_line_ops:
-            # ....
-            pass
+            _, name,value = line.split(" ")
+            names[name] = int(value)
+        for offset,char  in enumerate(line):
+            if char == "/":
+                encoding =True
+                continue
+            if encoding:
+                if char == "/":
+                    cmnt_flag = True
+                    break
+                elif char == "*":
+                    mlc_flag = True
 
+                else:
+                    raise EncodingWarning(f" error on /{char}")
+                encoding = False
 
-    ## process this after every operation is listed
-    # tags
-    for id,line in enumerate(program):
-        pass # how......
-
-
-
-    print(*program,sep="\n")
-    print("definitions\n")
-    print(*definitions.items(),sep="\n")
+        # skip the line
+        if cmnt_flag:
+            cmnt_flag = False
+            continue
 
 
 
-    return ["sus",],dict()
+#=target================state#
+# definition            done
+# initiazation          
+# tags                  
+# operation_split       
+# display_index         
+# comment               done
+# inline_comment        done
+# multi_line_comment    WIP
+
+
+
+
+
+
+
 
 # input
 testinp = """// stuff
