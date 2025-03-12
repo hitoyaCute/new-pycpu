@@ -1,4 +1,5 @@
 import re
+import convertions
 
 def assemble(inp:str, default_const: dict | None = None) -> tuple[list[str],dict]:
     # step 0 split by line
@@ -11,6 +12,10 @@ def assemble(inp:str, default_const: dict | None = None) -> tuple[list[str],dict
    
     # holds tags and definitions
     names: dict[str,int] = {}
+
+    # formated/cleaned assembly
+    # list[(operation, line, in_line_start, in_line_end),..]
+    asm: list[tuple[str,int,int,int]] = []
     
 
     # lets do it on one loop ig
@@ -29,14 +34,17 @@ def assemble(inp:str, default_const: dict | None = None) -> tuple[list[str],dict
         if line.startswith("//"):
             # maybe check if its on an header
             continue
+        # fetching definitions
         if line.startswith("define"):
             _, name,value = line.split(" ")
             names[name] = int(value)
+
+        # the fun part
         for offset,char  in enumerate(line):
             if char == "/":
                 encoding =True
                 continue
-            if encoding:
+            elif encoding:
                 if char == "/":
                     cmnt_flag = True
                     break
@@ -47,11 +55,11 @@ def assemble(inp:str, default_const: dict | None = None) -> tuple[list[str],dict
                     raise EncodingWarning(f" error on /{char}")
                 encoding = False
 
+
         # skip the line
         if cmnt_flag:
             cmnt_flag = False
             continue
-
 
 
 #=target================state#
